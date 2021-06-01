@@ -27,6 +27,18 @@ CalloutHandle_getArgument(CalloutHandleObject *self, PyObject *args) {
         }
     }
 
+    if (strcmp(name, "leases4") == 0 || strcmp(name, "deleted_leases4") == 0) {
+        try {
+            Lease4Collection ptr;
+            self->handle->getArgument(name, ptr);
+            return (lease_list_from_collection(ptr));
+        }
+        catch (const exception &e) {
+            PyErr_SetString(PyExc_TypeError, e.what());
+            return (0);
+        }
+    }
+
     if (strcmp(name, "query4") == 0 || strcmp(name, "response4") == 0) {
         try {
             Pkt4Ptr ptr;
